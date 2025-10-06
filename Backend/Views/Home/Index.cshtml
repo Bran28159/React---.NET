@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Página de Inicio";
+}
+
+<div class="landing-container text-center">
+    <div class="header mt-5">
+        <h1>Bienvenido a la Aplicación de Encuestas</h1>
+    </div>
+
+    <div class="buttons mt-4">
+       <a class="btn btn-success" href="/Usuario/Login">Iniciar Sesión</a>
+       <a class="btn btn-primary" href="/Usuario/Registrar">Registrarse</a>
+    </div>
+
+    <div class="footer mt-5">
+        © 2024 Aplicación de Encuestas - Todos los derechos reservados
+    </div>
+</div>
+
+<style>
+    .landing-container {
+        background: url("https://wallpapers.com/images/hd/abstract-purple-blue-gradient-rd3r9vw8dzqkjk1p.jpg") no-repeat center center fixed;
+        background-size: cover;
+        min-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+    }
+
+    .header h1 {
+        font-size: 3rem;
+        font-weight: bold;
+        text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+    }
+</style>

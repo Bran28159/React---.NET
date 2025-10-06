@@ -1,0 +1,10 @@
+@{
+    ViewBag.Title = "Panel Estudiante";
+    var nombreUsuario = ViewBag.NombreUsuario ?? "Usuario";
+}
+
+<h3>Bienvenido @nombreUsuario 👋</h3>
+
+
+<a class="btn btn-secondary" href="@Url.Action("LlenarEncuesta", "Encuesta")">Llenar encuesta</a>
+

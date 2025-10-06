@@ -1,0 +1,40 @@
+@model ProyectoWebFinal.Models.Usuario
+
+<h3>Registrar Usuario</h3>
+
+<form asp-action="Registrar" method="post">
+    <div class="form-group">
+        <input asp-for="nombre" class="form-control" placeholder="Nombre" />
+        <span asp-validation-for="nombre" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input asp-for="login" class="form-control" placeholder="Usuario" />
+        <span asp-validation-for="login" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input asp-for="clave" class="form-control" placeholder="Clave" type="password" />
+        <span asp-validation-for="clave" class="text-danger"></span>
+    </div>
+
+<div class="form-group">
+    <label>Rol</label>
+    <select asp-for="idrol" class="form-control" required>
+        <option value="">Seleccione un rol</option>
+        <option value="2">Estudiante</option>
+        <option value="3">Profesor</option>
+    </select>
+    <span asp-validation-for="idrol" class="text-danger"></span>
+</div>
+
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Registrar</button>
+    </div>
+</form>
+
+@if (TempData["Mensaje"] != null)
+{
+    <p>@TempData["Mensaje"]</p>
+}

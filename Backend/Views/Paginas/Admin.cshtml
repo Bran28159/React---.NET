@@ -1,0 +1,12 @@
+@{
+    ViewBag.Title = "Panel Admin";
+    var nombreUsuario = ViewBag.NombreUsuario ?? "Usuario";
+}
+
+<h3>Bienvenido @nombreUsuario 👋</h3>
+
+<a class="btn btn-primary" href="@Url.Action("Respuestas", "Respuestas")">Ver encuestas</a>
+<a class="btn btn-secondary" href="@Url.Action("LlenarEncuesta", "Encuesta")">Llenar encuesta</a>
+<a class="btn btn-success" href="@Url.Action("RespuestasEliminar", "Respuestas")">Eliminar encuestas</a>
+<a class="btn btn-danger" href="@Url.Action("RespuestasEditar", "Respuestas")">Actualizar encuesta</a>
+<a class="btn btn-warning" href="@Url.Action("RespuestasExportar", "Respuestas")">Exportar encuestas</a>

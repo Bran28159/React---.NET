@@ -1,0 +1,70 @@
+@model List<ProyectoWebFinal.DTOs.RespuestaDTO>
+
+
+<h3>Eliminar Respuestas</h3>
+
+
+@if (Model == null || !Model.Any())
+{
+    <p>No hay respuestas.</p>
+}
+else
+{
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+               <th>#</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Sexo</th>
+                <th>Identidad</th>
+                <th>Departamento</th>
+                <th>Ciudad</th>
+                <th>Facultad</th>
+                <th>Carrera</th>
+                <th>Matricula</th>
+                <th>Becado</th>
+                <th>XII</th>
+                <th>XIII</th>
+                <th>XIV</th>
+                <th>XV</th>
+                <th>XVI</th>
+                <th>XVII</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var r in Model)
+        {
+            <tr>
+                    <td>@r.Numero</td>
+                    <td>@r.Nombre</td>
+                    <td>@r.Apellido</td>
+                    <td>@r.Sexo</td>
+                    <td>@r.Identidad</td>
+                    <td>@r.Departamento</td>
+                    <td>@r.Ciudad</td>
+                    <td>@r.Facultad</td>
+                    <td>@r.Carrera</td>
+                    <td>@r.Matricula</td>
+                    <td>@r.Becado</td>
+                    <td>@r.Xii</td>
+                    <td>@r.Xiii</td>
+                    <td>@r.Xiv</td>
+                    <td>@r.Xv</td>
+                    <td>@r.Xvi</td>
+                    <td>@r.Xvii</td>
+                <td>
+                    <form asp-action="ConfirmarEliminar" method="post" style="display:inline">
+                        <input type="hidden" name="numero" value="@r.Numero" />
+                        <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('¿Eliminar la encuesta de @r.Nombre @r.Apellido (#@r.Numero)?');">
+                            Eliminar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,131 @@
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    // Primero intento obtener usuario y rol de Session
+    var nombreUsuario = HttpContextAccessor.HttpContext?.Session?.GetString("usuario");
+    var idrol = HttpContextAccessor.HttpContext?.Session?.GetInt32("rol");
+
+    // Si Session está vacía, uso la cookie de autenticación
+    if (string.IsNullOrEmpty(nombreUsuario) && HttpContextAccessor.HttpContext?.User?.Identity?.IsAuthenticated == true)
+    {
+        nombreUsuario = HttpContextAccessor.HttpContext.User.Identity.Name;
+        idrol = int.Parse(HttpContextAccessor.HttpContext.User.Claims.First(c => c.Type == System.Security.Claims.ClaimTypes.Role).Value);
+
+        // Restaurar Session desde la cookie
+        HttpContextAccessor.HttpContext.Session.SetString("usuario", nombreUsuario);
+        HttpContextAccessor.HttpContext.Session.SetInt32("rol", idrol.Value);
+    }
+
+    var estaLogueado = !string.IsNullOrEmpty(nombreUsuario);
+
+    var menu = new List<(string Texto, string Url)>();
+    if (estaLogueado && idrol != null)
+    {
+        switch (idrol.Value)
+        {
+            case 1: // Admin
+                menu.Add(("Inicio", "/Paginas/Admin"));
+                menu.Add(("Ver encuestas", "/Respuestas/Respuestas"));
+                menu.Add(("Llenar encuesta", "/Encuesta/LlenarEncuesta"));
+                menu.Add(("Eliminar encuestas", "/Respuestas/RespuestasEliminar"));
+                menu.Add(("Actualizar encuesta", "/Respuestas/RespuestasEditar"));
+                menu.Add(("Exportar encuestas", "/Respuestas/RespuestasExportar"));
+                break;
+
+            case 2: // Estudiante
+                menu.Add(("Inicio", "/Paginas/Estudiante"));
+                menu.Add(("Llenar encuesta", "/Encuesta/LlenarEncuesta"));
+                break;
+
+            case 3: // Profesor
+                menu.Add(("Inicio", "/Paginas/Profesor"));
+                menu.Add(("Ver encuestas", "/Respuestas/Respuestas"));
+                menu.Add(("Exportar encuestas", "/Respuestas/RespuestasExportar"));
+                menu.Add(("Eliminar encuestas", "/Respuestas/RespuestasEliminar"));
+                break;
+        }
+    }
+}
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ProyectoWebFinal</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body { min-height: 100vh; display: flex; flex-direction: column; }
+        .content { flex: 1; padding: 20px; }
+        .sidebar {
+            background-color: #f8f9fa;
+            padding: 15px;
+            min-width: 200px;
+        }
+        .sidebar a { display: block; margin-bottom: 10px; color: #333; text-decoration: none; }
+        .sidebar a:hover { text-decoration: underline; }
+        .footer { background-color: #6c757d; color: white; text-align: center; padding: 10px 0; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">ProyectoWebFinal</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        @if (estaLogueado)
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link">Bienvenido, @nombreUsuario 👋</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Usuario/Logout">Cerrar sesión</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Usuario/Login">Iniciar sesión</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Usuario/Registrar">Registrarse</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="d-flex">
+        @if (estaLogueado && menu.Any())
+        {
+            <div class="sidebar">
+                <h5>Panel</h5>
+                @foreach (var item in menu)
+                {
+                    <a href="@item.Url">@item.Texto</a>
+                }
+            </div>
+        }
+
+        <div class="content flex-grow-1">
+            @RenderBody()
+        </div>
+    </div>
+
+    <footer class="footer">
+        &copy; 2025 - ProyectoWebFinal
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

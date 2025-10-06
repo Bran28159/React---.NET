@@ -1,0 +1,21 @@
+@model ProyectoWebFinal.Models.Usuario
+
+<h3>Iniciar sesión</h3>
+
+<form asp-controller="Usuario" asp-action="Login" method="post">
+    <div class="form-group">
+        <input asp-for="login" class="form-control" placeholder="Usuario" />
+        <span asp-validation-for="login" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input asp-for="clave" class="form-control" type="password" placeholder="Clave" />
+        <span asp-validation-for="clave" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Ingresar</button>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

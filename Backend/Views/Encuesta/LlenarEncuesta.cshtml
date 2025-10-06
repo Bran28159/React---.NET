@@ -1,0 +1,119 @@
+@model ProyectoWebFinal.Models.Respuesta
+
+
+<h3>Llenar Encuesta</h3>
+
+<form asp-action="LlenarEncuesta" method="post">
+    <div class="form-group">
+        <label>Nombre:</label>
+        <input asp-for="Nombre" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Apellido:</label>
+        <input asp-for="Apellido" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Sexo:</label>
+        <select asp-for="SexoClave" class="form-control" asp-items="@(new SelectList(ViewBag.Sexos, "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Identidad:</label>
+        <input asp-for="Identidad" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Departamento:</label>
+        <select asp-for="DepartamentoClave" class="form-control" asp-items="@(new SelectList(ViewBag.Departamentos, "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Ciudad:</label>
+        <select asp-for="CiudadClave" class="form-control" asp-items="@(new SelectList(ViewBag.Ciudades, "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Facultad:</label>
+        <select asp-for="FacultadClave" class="form-control" asp-items="@(new SelectList(ViewBag.Facultades, "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Carrera:</label>
+        <select asp-for="CarreraClave" class="form-control" asp-items="@(new SelectList(ViewBag.Carreras, "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Año de estudios:</label>
+        <input asp-for="PreguntaIX" class="form-control" type="number" />
+    </div>
+
+    <div class="form-group">
+        <label>Matrícula:</label>
+        <select asp-for="MatriculaClave" class="form-control" asp-items="@(new SelectList(ViewBag.Matriculas, "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Becado:</label>
+        <select asp-for="BecadoClave" class="form-control" asp-items="@(new SelectList(ViewBag.Becados, "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>I. Usted ha usado el Sistema de Matrícula en línea?</label>
+        <select asp-for="XiiClave" class="form-control" asp-items="@(new SelectList(ViewBag.Xii, "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>II. Qué le parece el nuevo sistema de matrícula en línea?</label>
+        <select asp-for="XiiiClave" class="form-control" asp-items="@(new SelectList(ViewBag.Xiii, "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>III. Qué tan accesible está el nuevo sistema?</label>
+        <select asp-for="XivClave" class="form-control" asp-items="@(new SelectList(ViewBag.Xiv, "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>IV. De qué manera le ha ayudado el nuevo sistema?</label>
+        <select asp-for="XvClave" class="form-control" asp-items="@(new SelectList(ViewBag.Xv, "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>V. Cuánto dinero ha ahorrado usar el nuevo sistema?</label>
+        <select asp-for="XviClave" class="form-control" asp-items="@(new SelectList(ViewBag.Xvi, "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>VI. Qué recomienda para mejorar el sistema?</label>
+        <select asp-for="XviiClave" class="form-control" asp-items="@(new SelectList(ViewBag.Xvii, "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+</form>

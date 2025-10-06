@@ -1,0 +1,146 @@
+@model ProyectoWebFinal.Models.Respuesta
+
+<h3>Editar Encuesta</h3>
+
+<form asp-action="ActualizarEncuesta" method="post">
+    <input type="hidden" asp-for="Numero" />
+
+    <!-- Nombre -->
+    <div class="form-group">
+        <label asp-for="Nombre"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <!-- Apellido -->
+    <div class="form-group">
+        <label asp-for="Apellido"></label>
+        <input asp-for="Apellido" class="form-control" />
+        <span asp-validation-for="Apellido" class="text-danger"></span>
+    </div>
+
+    <!-- Identidad -->
+    <div class="form-group">
+        <label asp-for="Identidad"></label>
+        <input asp-for="Identidad" class="form-control" />
+        <span asp-validation-for="Identidad" class="text-danger"></span>
+    </div>
+
+    <!-- Sexo -->
+    <div class="form-group">
+        <label asp-for="SexoClave"></label>
+        <select asp-for="SexoClave" class="form-control" asp-items="@(new SelectList(ViewBag.Sexos ?? new List<ProyectoWebFinal.Controllers.EncuestaController.ClaveValor>(), "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+        <span asp-validation-for="SexoClave" class="text-danger"></span>
+    </div>
+
+    <!-- Departamento -->
+    <div class="form-group">
+        <label asp-for="DepartamentoClave"></label>
+        <select asp-for="DepartamentoClave" class="form-control" asp-items="@(new SelectList(ViewBag.Departamentos ?? new List<ProyectoWebFinal.Controllers.EncuestaController.ClaveValor>(), "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <!-- Ciudad -->
+    <div class="form-group">
+        <label asp-for="CiudadClave"></label>
+        <select asp-for="CiudadClave" class="form-control" asp-items="@(new SelectList(ViewBag.Ciudades ?? new List<ProyectoWebFinal.Controllers.EncuestaController.ClaveValor>(), "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <!-- Facultad -->
+    <div class="form-group">
+        <label asp-for="FacultadClave"></label>
+        <select asp-for="FacultadClave" class="form-control" asp-items="@(new SelectList(ViewBag.Facultades ?? new List<ProyectoWebFinal.Controllers.EncuestaController.ClaveValor>(), "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <!-- Carrera -->
+    <div class="form-group">
+        <label asp-for="CarreraClave"></label>
+        <select asp-for="CarreraClave" class="form-control" asp-items="@(new SelectList(ViewBag.Carreras ?? new List<ProyectoWebFinal.Controllers.EncuestaController.ClaveValor>(), "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <!-- Año de estudios -->
+    <div class="form-group">
+        <label asp-for="PreguntaIX"></label>
+        <input asp-for="PreguntaIX" class="form-control" type="number" />
+    </div>
+
+    <!-- Matrícula -->
+    <div class="form-group">
+        <label asp-for="MatriculaClave"></label>
+        <select asp-for="MatriculaClave" class="form-control" asp-items="@(new SelectList(ViewBag.Matriculas ?? new List<ProyectoWebFinal.Controllers.EncuestaController.ClaveValor>(), "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <!-- Becado -->
+    <div class="form-group">
+        <label asp-for="BecadoClave"></label>
+        <select asp-for="BecadoClave" class="form-control" asp-items="@(new SelectList(ViewBag.Becados ?? new List<ProyectoWebFinal.Controllers.EncuestaController.ClaveValor>(), "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <!-- XII -->
+    <div class="form-group">
+        <label>I. Usted ha usado el Sistema de Matrícula en línea?</label>
+        <select asp-for="XiiClave" class="form-control" asp-items="@(new SelectList(ViewBag.Xii ?? new List<ProyectoWebFinal.Controllers.EncuestaController.ClaveValor>(), "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <!-- XIII -->
+    <div class="form-group">
+        <label>II. Qué le parece el nuevo sistema de matrícula en línea?</label>
+        <select asp-for="XiiiClave" class="form-control" asp-items="@(new SelectList(ViewBag.Xiii ?? new List<ProyectoWebFinal.Controllers.EncuestaController.ClaveValor>(), "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <!-- XIV -->
+    <div class="form-group">
+        <label>III. Qué tan accesible está el nuevo sistema?</label>
+        <select asp-for="XivClave" class="form-control" asp-items="@(new SelectList(ViewBag.Xiv ?? new List<ProyectoWebFinal.Controllers.EncuestaController.ClaveValor>(), "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <!-- XV -->
+    <div class="form-group">
+        <label>IV. De qué manera le ha ayudado el nuevo sistema?</label>
+        <select asp-for="XvClave" class="form-control" asp-items="@(new SelectList(ViewBag.Xv ?? new List<ProyectoWebFinal.Controllers.EncuestaController.ClaveValor>(), "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <!-- XVI -->
+    <div class="form-group">
+        <label>V. Cuánto dinero ha ahorrado usar el nuevo sistema?</label>
+        <select asp-for="XviClave" class="form-control" asp-items="@(new SelectList(ViewBag.Xvi ?? new List<ProyectoWebFinal.Controllers.EncuestaController.ClaveValor>(), "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <!-- XVII -->
+    <div class="form-group">
+        <label>VI. Qué recomienda para mejorar el sistema?</label>
+        <select asp-for="XviiClave" class="form-control" asp-items="@(new SelectList(ViewBag.Xvii ?? new List<ProyectoWebFinal.Controllers.EncuestaController.ClaveValor>(), "Clave", "Valor"))">
+            <option value="">Seleccione...</option>
+        </select>
+    </div>
+
+    <!-- Botón -->
+    <button type="submit" class="btn btn-success mt-3">Actualizar</button>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

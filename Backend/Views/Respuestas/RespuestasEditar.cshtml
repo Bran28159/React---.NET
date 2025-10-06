@@ -1,0 +1,68 @@
+@model List<ProyectoWebFinal.DTOs.RespuestaDTO>
+
+
+<h3>Editar Respuestas</h3>
+
+@if (Model is null)
+{
+    <p>Cargando...</p>
+}
+else if (Model.Count == 0)
+{
+    <p>No hay respuestas.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Sexo</th>
+                <th>Identidad</th>
+                <th>Departamento</th>
+                <th>Ciudad</th>
+                <th>Facultad</th>
+                <th>Carrera</th>
+                <th>Matricula</th>
+                <th>Becado</th>
+                <th>XII</th>
+                <th>XIII</th>
+                <th>XIV</th>
+                <th>XV</th>
+                <th>XVI</th>
+                <th>XVII</th>
+                <th>Acciones</th> @* 👈 Nueva columna *@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.Numero</td>
+                    <td>@r.Nombre</td>
+                    <td>@r.Apellido</td>
+                    <td>@r.Sexo</td>
+                    <td>@r.Identidad</td>
+                    <td>@r.Departamento</td>
+                    <td>@r.Ciudad</td>
+                    <td>@r.Facultad</td>
+                    <td>@r.Carrera</td>
+                    <td>@r.Matricula</td>
+                    <td>@r.Becado</td>
+                    <td>@r.Xii</td>
+                    <td>@r.Xiii</td>
+                    <td>@r.Xiv</td>
+                    <td>@r.Xv</td>
+                    <td>@r.Xvi</td>
+                    <td>@r.Xvii</td>
+                    <td>
+                        <a asp-controller="Encuesta" asp-action="ActualizarEncuesta" asp-route-numero="@r.Numero">Editar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
