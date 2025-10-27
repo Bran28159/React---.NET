@@ -21,34 +21,38 @@ export default function Login() {
       return;
     }
 
-   try {
+try {
   const res = await postJson("/login", { Usuario: usuario, Clave: clave });
+
   if (!res.ok) {
-    setError("Usuario o clave incorrectos");
+    // Obtener mensaje del backend
+    const mensaje = await res.text();
+    setError(mensaje); // muestra "Este usuario está desactivado..." o "Usuario o clave incorrectos"
     return;
   }
 
   const data = await res.json();
 
-  const expiracion = Date.now() + 5 * 60 * 1000; // 5 minutos
+  const expiracion = Date.now() + 30 * 60 * 1000; // 30 minutos
 
   const usuarioSesion = {
     ...data,
     expiracion,
   };
 
-  // Guardar en sessionStorage
+  // Guardar en sessionStorage y localStorage
   sessionStorage.setItem("usuarioSesion", JSON.stringify(usuarioSesion));
+  localStorage.setItem("usuarioSesion", JSON.stringify(usuarioSesion));
 
-  // Actualizar el contexto global para que se active el temporizador de expiración
+  // Actualizar el contexto global
   setUser(usuarioSesion);
 
-  // Redirigir
   navigate("/dashboard");
 } catch (err) {
   setError("Error al conectar con el servidor");
   console.error(err);
 }
+
   };
 
   return (
@@ -97,15 +101,6 @@ export default function Login() {
           </button>
         </form>
 
-        {/* Enlace de ayuda debajo del formulario */}
-        <div className="text-center mt-3">
-          <small>
-            ¿Aún no tienes cuenta?{" "}
-            <a href="/registro" className="text-decoration-none fw-semibold">
-              Regístrate
-            </a>
-          </small>
-        </div>
 
         <div className="text-center mt-3">
           <small className="text-muted">© 2025 Proyecto Web Final</small>

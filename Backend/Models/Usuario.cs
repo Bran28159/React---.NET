@@ -16,6 +16,8 @@ public class Usuario
     public int idrol { get; set; }
 
     public Rol? Rol { get; set; } = null!; // Propiedad de navegación
+    public bool activo { get; set; } = true; // Por defecto todos los usuarios nuevos estarán activos
+
 }
 
 

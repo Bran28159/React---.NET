@@ -1,16 +1,20 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
 import { postJson } from "../api";
+import { useUser } from "../App";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaUserPlus } from "react-icons/fa";
+import { FaUser, FaLock } from "react-icons/fa";
 
 export default function Registro() {
+  const { setUser } = useUser();
+  const [usuario, setUsuario] = useState("");
   const navigate = useNavigate();
   const [form, setForm] = useState({
     nombre: "",
     login: "",
     clave: "",
-    idrol: 2, // 2 = Profesor, 3 = Estudiante
+    idrol: 2, // 1 = Administrador, 2 = Estudiante, 3 = Profesor
   });
   const [mensaje, setMensaje] = useState("");
   const [error, setError] = useState("");
@@ -19,30 +23,34 @@ export default function Registro() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMensaje("");
-    setError("");
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setMensaje("");
+  setError("");
 
-    if (!form.nombre || !form.login || !form.clave) {
-      setError("Todos los campos son obligatorios.");
+  if (!form.nombre || !form.login || !form.clave) {
+    setError("Todos los campos son obligatorios.");
+    return;
+  }
+
+  try {
+    // Envías los datos al backend
+    const res = await postJson("/registrar", form);
+
+    if (!res.ok) {
+      const text = await res.text();
+      setError(text || "Error al registrar usuario");
       return;
     }
 
-    try {
-      const res = await postJson("/registrar", form);
-      if (!res.ok) {
-        const text = await res.text();
-        setError(text || "Error al registrar usuario");
-        return;
-      }
+    setMensaje("Usuario registrado correctamente");
+    setTimeout(() => navigate("/Dashboard"), 2000);
 
-      setMensaje("✅ Usuario registrado correctamente");
-      setTimeout(() => navigate("/login"), 2000);
-    } catch {
-      setError("Error al conectar con el servidor.");
-    }
-  };
+  } catch (err) {
+    setError("Error al conectar con el servidor.");
+  }
+};
+
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100 bg-dashboard">
@@ -52,7 +60,7 @@ export default function Registro() {
             <FaUserPlus className="me-2" />
             Registro de Usuario
           </h3>
-          <p className="text-muted small">Crea tu cuenta para acceder al sistema</p>
+          <p className="text-muted small">Crea la cuenta para acceder al sistema</p>
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -62,7 +70,7 @@ export default function Registro() {
               type="text"
               className="form-control"
               name="nombre"
-              placeholder="Ej. Juan Pérez"
+              placeholder="Ej. Brandon Altamirano"
               value={form.nombre}
               onChange={handleChange}
             />
@@ -74,7 +82,7 @@ export default function Registro() {
               type="text"
               className="form-control"
               name="login"
-              placeholder="Ej. juanperez"
+              placeholder="Ej. brandon123"
               value={form.login}
               onChange={handleChange}
             />
@@ -100,8 +108,9 @@ export default function Registro() {
               value={form.idrol}
               onChange={handleChange}
             >
-              <option value={2}>Profesor</option>
-              <option value={3}>Estudiante</option>
+              <option value={1}>Administrador</option>
+              <option value={2}>Estudiante</option>
+              <option value={3}>Profesor</option>
             </select>
           </div>
 
@@ -109,19 +118,10 @@ export default function Registro() {
           {mensaje && <div className="alert alert-success py-2 small text-center">{mensaje}</div>}
 
           <button className="btn btn-success w-100 mt-3 fw-semibold d-flex align-items-center justify-content-center gap-2" type="submit">
-            <FaUserPlus /> Registrarse
+            <FaUserPlus /> Registrar usuario
           </button>
         </form>
 
-        {/* Enlace de ayuda debajo del formulario */}
-        <div className="text-center mt-3">
-          <small>
-            ¿Ya tienes cuenta?{" "}
-            <a href="/login" className="text-decoration-none fw-semibold">
-              Inicia sesión
-            </a>
-          </small>
-        </div>
 
         <div className="text-center mt-3">
           <small className="text-muted">© 2025 Proyecto Web Final</small>

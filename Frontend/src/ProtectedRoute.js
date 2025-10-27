@@ -1,9 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function ProtectedRoute({ user, roles, children }) {
+  const navigate = useNavigate();
+
   // Si no hay usuario o no tiene rol permitido, no renderiza los children
   if (!user || !roles.includes(user.idrol)) {
-    return null; // mantiene la URL, no muestra nada
+      navigate("/dashboard");
   }
 
   return <>{children}</>;

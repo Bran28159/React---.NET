@@ -130,6 +130,32 @@ namespace ProyectoWebFinal.Controllers
             return View(model);
         }
 
+        // ==========================================
+        // 2️⃣ Eliminar Usuarios (solo Admin)
+        // ==========================================
+        public async Task<IActionResult> UsuariosEliminar()
+        {
+            var response = await _httpClient.GetAsync("api/UsuariosApi");
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+            var lista = JsonSerializer.Deserialize<List<Usuario>>(json,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            return View(lista);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmarEliminar(int numero)
+        {
+            var response = await _httpClient.DeleteAsync($"api/UsuariosApi/{numero}");
+            TempData["Mensaje"] = response.IsSuccessStatusCode
+                ? "✅ Usuario eliminado correctamente"
+                : "❌ Error al eliminar el usuario";
+
+            return RedirectToAction("UsuariosEliminar");
+        }
+
         public async Task<IActionResult> Logout()
         {
             HttpContext.Session.Clear();

@@ -73,13 +73,13 @@ export default function VerEncuestas() {
               className="btn btn-danger d-flex align-items-center gap-1"
               onClick={exportarTodoPDF}
             >
-              <FaFilePdf /> PDF Todo
+              <FaFilePdf /> Exportar todas PDF
             </button>
             <button
               className="btn btn-success d-flex align-items-center gap-1"
               onClick={exportarTodoExcel}
             >
-              <FaFileExcel /> Excel Todo
+              <FaFileExcel /> Exportar todas Excel
             </button>
           </div>
         </div>
@@ -146,29 +146,34 @@ export default function VerEncuestas() {
                     <td>
                       <div className="d-flex flex-wrap justify-content-center gap-1">
                         <button
-                          className="btn btn-sm btn-warning"
-                          onClick={() => navigate(`/actualizar/${r.numero}`)}
-                        >
-                          <FaEdit />
-                        </button>
-                        <button
-                          className="btn btn-sm btn-primary"
-                          onClick={() => exportarPDF(r.numero)}
-                        >
-                          <FaFilePdf />
-                        </button>
-                        <button
-                          className="btn btn-sm btn-success"
-                          onClick={() => exportarExcel(r.numero)}
-                        >
-                          <FaFileExcel />
-                        </button>
-                        <button
-                          className="btn btn-sm btn-danger"
-                          onClick={() => eliminar(r.numero)}
-                        >
-                          <FaTrash />
-                        </button>
+  className="btn btn-sm btn-warning"
+  onClick={() => navigate(`/actualizar/${r.numero}`)}
+  title="Editar encuesta"
+>
+  <FaEdit />
+</button>
+<button
+  className="btn btn-sm btn-primary"
+  onClick={() => exportarPDF(r.numero)}
+  title="Exportar PDF"
+>
+  <FaFilePdf />
+</button>
+<button
+  className="btn btn-sm btn-success"
+  onClick={() => exportarExcel(r.numero)}
+  title="Exportar Excel"
+>
+  <FaFileExcel />
+</button>
+<button
+  className="btn btn-sm btn-danger"
+  onClick={() => eliminar(r.numero)}
+  title="Eliminar encuesta"
+>
+  <FaTrash />
+</button>
+
                       </div>
                     </td>
                   </tr>

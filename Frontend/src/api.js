@@ -8,6 +8,35 @@ export async function postJson(endpoint, data) {
     },
     body: JSON.stringify(data),
   });
-
   return response;
+}
+
+export async function GetUsuarios() {
+  const res = await fetch(API_URL); 
+  if (!res.ok) throw new Error(`Error al obtener usuarios: ${res.statusText}`);
+  return await res.json();
+}
+
+export const deleteUsuario = async (id) => {
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) throw new Error("Error al eliminar usuario");
+
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+};
+
+// ✅ CORRECTO — no repitas "UsuarioApi"
+export async function activarUsuario(id) {
+  const res = await fetch(`${API_URL}/activar/${id}`, { method: "PUT" });
+  if (!res.ok) throw new Error("Error al activar usuario");
+  return await res.text();
+}
+
+export async function desactivarUsuario(id) {
+  const res = await fetch(`${API_URL}/desactivar/${id}`, { method: "PUT" });
+  if (!res.ok) throw new Error("Error al desactivar usuario");
+  return await res.text();
 }

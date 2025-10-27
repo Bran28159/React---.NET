@@ -11,6 +11,7 @@ export default function Home() {
 
   const handleLogout = () => {
     logout();
+    localStorage.removeItem('usuarioSesion'); // elimina la sesión
     navigate("/login");
   };
 
@@ -19,9 +20,6 @@ export default function Home() {
     ? "btn btn-primary btn-lg fw-semibold"
     : "btn btn-outline-primary btn-lg fw-semibold";
 
-  const registroBtnClass = location.pathname === "/registro"
-    ? "btn btn-success btn-lg fw-semibold"
-    : "btn btn-outline-success btn-lg fw-semibold";
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center vh-100 bg-dashboard">
@@ -40,12 +38,6 @@ export default function Home() {
               >
                 <FaSignInAlt /> Iniciar Sesión
               </button>
-              <button
-                className={`${registroBtnClass} d-flex align-items-center justify-content-center gap-2`}
-                onClick={() => navigate("/registro")}
-              >
-                <FaUserPlus /> Registrarse
-              </button>
             </div>
           </>
         ) : (
@@ -63,6 +55,22 @@ export default function Home() {
                 >
                   Ir al Panel de Administración
                 </button>
+              )}
+                {user.idrol === 2 && (
+                  <button
+                    className="btn btn-warning fw-semibold"
+                    onClick={() => navigate("/dashboard")}
+                  >
+                    Ir al Panel de Estudiante
+                </button>
+              )}
+              {user.idrol === 3 && (
+                  <button
+                    className="btn btn-warning fw-semibold"
+                    onClick={() => navigate("/dashboard")}
+                  >
+                    Ir al Panel de Profesor
+                  </button>
               )}
               <button
                 className="btn btn-outline-danger fw-semibold"

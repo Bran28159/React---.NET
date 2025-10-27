@@ -21,68 +21,179 @@ namespace ProyectoWebFinal.Controllers
             _context = context;
         }
 
-        // GET: api/Usuario
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<object>>> GetUsuarios()
-        {
-            if (_context?.usuario == null)
-                return NotFound("No se encontró la entidad 'usuario'.");
+  
 
-            var usuarios = await _context.usuario
-                .Include(u => u.Rol)
-                .Select(u => new
+[HttpGet]
+public async Task<ActionResult<IEnumerable<object>>> GetUsuarios()
+{
+    if (_context?.usuario == null)
+        return NotFound("No se encontró la entidad 'usuario'.");
+
+    // Solo traer usuarios con rol válido para login
+    var usuarios = await _context.usuario
+        .Where(u => u.idrol == 2 || u.idrol == 3)
+        .Select(u => new
+        {
+            u.idusuario,
+            u.nombre,
+            u.login,
+            u.idrol,
+            u.activo
+        })
+        .ToListAsync();
+
+    return Ok(usuarios);
+}
+
+// POST: api/Usuario/login
+[HttpPost("login")]
+public async Task<ActionResult<object>> Login([FromBody] LoginModel model)
+{
+    var usuario = await _context.usuario
+        .FirstOrDefaultAsync(u => u.login == model.Usuario && u.clave == model.Clave);
+
+    if (usuario == null)
+        return Unauthorized("Usuario o clave incorrectos");
+
+    if (!usuario.activo)
+        return Unauthorized("Este usuario está desactivado. Contacte al administrador.");
+
+    return Ok(new
+    {
+        usuario.idusuario,
+        usuario.nombre,
+        usuario.login,
+        usuario.idrol,
+        usuario.activo
+    });
+}
+
+// POST: api/Usuario/registrar
+[HttpPost("registrar")]
+public async Task<IActionResult> Registrar([FromBody] Usuario dto)
+{
+
+
+    // Verificar si el usuario ya existe
+var usuarioExistente = await _context.usuario
+    .FirstOrDefaultAsync(u => u.login == dto.login);
+
+if (usuarioExistente != null)
+{
+    // Determinar el tipo de rol según idrol
+    string tipoRol = usuarioExistente.idrol switch
+    {
+        1 => "Administrador",
+        2 => "Profesor",
+        3 => "Estudiante",
+        _ => "Desconocido"
+    };
+
+    return BadRequest($"El usuario ya existe como {tipoRol}.");
+}
+
+
+    var usuario = new Usuario
+    {
+        nombre = dto.nombre,
+        login = dto.login,
+        clave = dto.clave,
+        idrol = dto.idrol,
+        activo = true
+
+    };
+
+    _context.usuario.Add(usuario);
+    await _context.SaveChangesAsync();
+
+    await _context.Entry(usuario).Reference(u => u.Rol).LoadAsync();
+
+    return Ok(new
+    {
+        usuario.idusuario,
+        usuario.nombre,
+        usuario.login,
+        usuario.idrol,
+        usuario.activo
+    });
+}
+
+
+        [HttpDelete("{id}")]
+public async Task<IActionResult> UsuariosEliminar(int id)
+{
+    try
+    {
+        var usuario = await _context.usuario.FindAsync(id);
+        if (usuario == null)
+            return NotFound("Usuario no encontrado");
+
+        _context.usuario.Remove(usuario);
+        await _context.SaveChangesAsync();
+
+        return NoContent(); // 204
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, $"Error al eliminar: {ex.Message}");
+    }
+}
+
+
+        // PUT: api/Usuarios/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutUsuario(int id, Usuario usuario)
+        {
+            if (id != usuario.idusuario)
+            {
+                return BadRequest("El id no coincide con el registro.");
+            }
+
+            _context.Entry(usuario).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.usuario.Any(e => e.idusuario == id))
                 {
-                    u.idusuario,
-                    u.nombre,
-                    u.login,
-                    u.idrol
-                })
-                .ToListAsync();
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-            return Ok(usuarios);
+            return NoContent(); // 204
         }
 
-        // POST: api/Usuario/login
-        [HttpPost("login")]
-        public async Task<ActionResult<object>> Login([FromBody] LoginModel model)
-        {
-            var usuario = await _context.usuario
-                .FirstOrDefaultAsync(u => u.login == model.Usuario && u.clave == model.Clave);
+[HttpPut("activar/{id}")]
+public async Task<IActionResult> ActivarUsuario(int id)
+{
+    var usuario = await _context.usuario.FindAsync(id);
+    if (usuario == null)
+        return NotFound("Usuario no encontrado.");
 
-            if (usuario == null)
-                return Unauthorized("Usuario o clave incorrectos");
+    usuario.activo = true;
+    await _context.SaveChangesAsync();
+    return Ok("Usuario activado correctamente");
+}
 
-            return Ok(new { usuario.idusuario, usuario.nombre, usuario.login, usuario.idrol });
-        }
+[HttpPut("desactivar/{id}")]
+public async Task<IActionResult> DesactivarUsuario(int id)
+{
+    var usuario = await _context.usuario.FindAsync(id);
+    if (usuario == null)
+        return NotFound("Usuario no encontrado.");
 
-        // POST: api/Usuario/registrar
-        [HttpPost("registrar")]
-        public async Task<IActionResult> Registrar([FromBody] Usuario dto)
-        {
-            if (dto.idrol != 2 && dto.idrol != 3)
-                return BadRequest("Rol inválido. Solo Estudiante o Profesor.");
+    usuario.activo = false;
+    await _context.SaveChangesAsync();
+    return Ok("Usuario desactivado correctamente");
+}
 
-            var usuario = new Usuario
-            {
-                nombre = dto.nombre,
-                login = dto.login,
-                clave = dto.clave,
-                idrol = dto.idrol
-            };
-
-            _context.usuario.Add(usuario);
-            await _context.SaveChangesAsync();
-
-            await _context.Entry(usuario).Reference(u => u.Rol).LoadAsync();
-
-            return Ok(new
-            {
-                usuario.idusuario,
-                usuario.nombre,
-                usuario.login,
-                usuario.idrol
-            });
-        }
 
         public class LoginModel
         {

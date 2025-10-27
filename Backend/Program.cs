@@ -84,9 +84,9 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseSession();              // 🔹 Session primero
-app.UseAuthentication();       // 🔹 Authentication después de Session
-app.UseAuthorization();        // 🔹 Authorization después de Authentication
+app.UseSession();              //  Session primero
+app.UseAuthentication();       // Authentication después de Session
+app.UseAuthorization();        // Authorization después de Authentication
 app.UseCors("AllowAll");       
 
 // Middleware de redirección según sesión/rol

@@ -15,6 +15,7 @@ import Dashboard from "./pages/Dashboard";
 import LlenarEncuesta from "./pages/LlenarEncuesta";
 import VerEncuestas from "./pages/VerEncuestas";
 import ActualizarEncuesta from "./pages/ActualizarEncuesta";
+import EliminarUsuarios from "./pages/EliminarUsuarios";
 
 import PublicRoute from "./PublicRoute";
 import ProtectedRoute from "./ProtectedRoute";
@@ -33,10 +34,10 @@ const UserContext = createContext();
 export function UserProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
-      const storedUser = JSON.parse(sessionStorage.getItem("usuarioSesion"));
+      const storedUser = JSON.parse(localStorage.getItem("usuarioSesion"));
       if (storedUser && storedUser.expiracion > Date.now()) return storedUser;
     } catch (e) {
-      console.warn("usuarioSesion no válido en sessionStorage", e);
+      console.warn("usuarioSesion no válido en localStorage", e);
     }
     return null;
   });
@@ -45,6 +46,7 @@ export function UserProvider({ children }) {
 
   const logout = () => {
     sessionStorage.removeItem("usuarioSesion");
+       localStorage.removeItem('usuarioSesion'); // elimina la sesión
     setUser(null);
   };
 
@@ -141,7 +143,7 @@ function Navbar() {
                   <>
                     <li className="nav-item me-2">
                       <Link className="nav-link text-secondary" to="/dashboard">
-                        Dashboard
+                        Panel Admin
                       </Link>
                     </li>
                     <li className="nav-item me-2">
@@ -154,14 +156,19 @@ function Navbar() {
                         Ver Encuestas
                       </Link>
                     </li>
+                        <li className="nav-item me-2">
+                      <Link className="nav-link text-secondary" to="/eliminar-usuarios">
+                        Administrar Usuarios
+                      </Link>
+                    </li>
                   </>
                 )}
 
-                {user.idrol === 3 && (
+                {user.idrol === 2 && (
                   <>
                     <li className="nav-item me-2">
                       <Link className="nav-link text-secondary" to="/dashboard">
-                        Dashboard
+                        Panel Estudiante
                       </Link>
                     </li>
                     <li className="nav-item me-2">
@@ -172,11 +179,11 @@ function Navbar() {
                   </>
                 )}
 
-                {user.idrol === 2 && (
+                {user.idrol === 3 && (
                   <>
                     <li className="nav-item me-2">
                       <Link className="nav-link text-secondary" to="/dashboard">
-                        Dashboard
+                        Panel Docente
                       </Link>
                     </li>
                     <li className="nav-item me-2">
@@ -289,11 +296,12 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<PublicRouteWrapper><Login /></PublicRouteWrapper>} />
-            <Route path="/registro" element={<PublicRouteWrapper><Registro /></PublicRouteWrapper>} />
+            <Route path="/registro" element={<ProtectedRouteWrapper roles={[1]}><Registro /></ProtectedRouteWrapper>} />
             <Route path="/dashboard" element={<ProtectedRouteWrapper roles={[1,2,3]}><Dashboard /></ProtectedRouteWrapper>} />
-            <Route path="/llenar-encuesta" element={<ProtectedRouteWrapper roles={[1,3]}><LlenarEncuesta /></ProtectedRouteWrapper>} />
-            <Route path="/ver-encuestas" element={<ProtectedRouteWrapper roles={[1,2]}><VerEncuestas /></ProtectedRouteWrapper>} />
-            <Route path="/actualizar/:id" element={<ProtectedRouteWrapper roles={[1]}><ActualizarEncuesta /></ProtectedRouteWrapper>} />
+            <Route path="/llenar-encuesta" element={<ProtectedRouteWrapper roles={[1,2]}><LlenarEncuesta /></ProtectedRouteWrapper>} />
+            <Route path="/ver-encuestas" element={<ProtectedRouteWrapper roles={[1,3]}><VerEncuestas /></ProtectedRouteWrapper>} />
+            <Route path="/actualizar/:id" element={<ProtectedRouteWrapper roles={[1,3]}><ActualizarEncuesta /></ProtectedRouteWrapper>} />
+            <Route path="/eliminar-usuarios" element={<ProtectedRouteWrapper roles={[1]}><EliminarUsuarios /></ProtectedRouteWrapper>} />
           </Routes>
         </div>
 

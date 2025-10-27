@@ -16,6 +16,7 @@ export default function Dashboard() {
 
   const handleLogout = () => {
     logout();
+    localStorage.removeItem('usuarioSesion'); // elimina la sesión
     navigate("/login");
   };
 
@@ -41,24 +42,30 @@ export default function Dashboard() {
             >
               <FaFileAlt /> Llenar Encuesta
             </button>
+            <button
+              className={`btn btn-danger ${baseBtnClasses}`}
+              onClick={() => navigate("/eliminar-usuarios")}
+            >
+              Administrar Usuarios
+            </button>
           </>
         );
       case 2:
         return (
-          <button
-            className={`btn btn-primary ${baseBtnClasses}`}
-            onClick={() => navigate("/ver-encuestas")}
-          >
-            <FaClipboardList /> Ver Encuestas
-          </button>
-        );
-      case 3:
-        return (
-          <button
+             <button
             className={`btn btn-success ${baseBtnClasses}`}
             onClick={() => navigate("/llenar-encuesta")}
           >
             <FaFileAlt /> Llenar Encuesta
+          </button>
+        );
+      case 3:
+        return (
+       <button
+            className={`btn btn-primary ${baseBtnClasses}`}
+            onClick={() => navigate("/ver-encuestas")}
+          >
+            <FaClipboardList /> Ver Encuestas
           </button>
         );
       default:
@@ -83,8 +90,10 @@ export default function Dashboard() {
           {idrol === 1
             ? "Administrador"
             : idrol === 2
+            ? "Estudiante"
+            : idrol === 3
             ? "Profesor"
-            : "Estudiante"}
+            : "Desconocido"}
         </p>
 
         <div className="d-grid gap-2">{renderOpciones()}</div>
@@ -95,6 +104,7 @@ export default function Dashboard() {
         >
           <FaSignOutAlt /> Cerrar Sesión
         </button>
+                
       </div>
     </div>
   );
