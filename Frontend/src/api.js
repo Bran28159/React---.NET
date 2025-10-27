@@ -28,7 +28,6 @@ export const deleteUsuario = async (id) => {
   return text ? JSON.parse(text) : null;
 };
 
-// ✅ CORRECTO — no repitas "UsuarioApi"
 export async function activarUsuario(id) {
   const res = await fetch(`${API_URL}/activar/${id}`, { method: "PUT" });
   if (!res.ok) throw new Error("Error al activar usuario");
