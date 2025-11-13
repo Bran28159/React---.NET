@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoWebFinal.Models;
-using ProyectoWebFinal.DATA; // Add this if ApplicationDbContext is in the Data namespace
-using Microsoft.EntityFrameworkCore; // Add this for EF Core features like Include and ToListAsync
+using ProyectoWebFinal.DATA; 
+using Microsoft.EntityFrameworkCore; 
 
 namespace ProyectoWebFinal.Controllers
 

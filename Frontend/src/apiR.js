@@ -13,7 +13,7 @@ export const deleteRespuesta = async (id) => {
 
   if (!res.ok) throw new Error("Error al eliminar");
 
-  // Solo intenta parsear JSON si hay contenido
+
   const text = await res.text();
   return text ? JSON.parse(text) : null;
 };

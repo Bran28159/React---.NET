@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `encuesta` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `encuesta`;
 -- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
 --
 -- Host: localhost    Database: encuesta
@@ -197,11 +195,12 @@ CREATE TABLE `usuario` (
   `clave` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `idrol` int NOT NULL,
+  `activo` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idusuario`),
   UNIQUE KEY `login_UNIQUE` (`login`),
   KEY `usuario_ibfk_rol` (`idrol`),
   CONSTRAINT `usuario_ibfk_rol` FOREIGN KEY (`idrol`) REFERENCES `rol` (`idrol`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,7 +209,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'Bran22','Bran123','Brandon Altamirano',1),(2,'Yos23','Yos123','Yoselyn Padilla',2),(3,'Gonza12','Gonza123','Gonzalo Avendaño',1),(4,'Fran23','Fran123','Francisco Jarquin',3);
+INSERT INTO `usuario` VALUES (1,'Bran22','Bran123','Brandon Altamirano',1,1),(2,'Yos23','Yos123','Yoselyn Padilla',2,1),(3,'Gonza12','Gonza123','Gonzalo Avendaño',1,1),(4,'Fran23','Fran123','Francisco Jarquin',3,1),(5,'Gonza27','gonza123','Gonzalo Altamirano',3,1);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -511,4 +510,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-09-01 17:49:25
+-- Dump completed on 2025-11-13 11:45:39

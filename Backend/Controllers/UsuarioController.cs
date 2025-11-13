@@ -19,7 +19,7 @@ namespace ProyectoWebFinal.Controllers
         {
             _httpClient = httpClientFactory.CreateClient();
             _httpClient.BaseAddress = new Uri("http://localhost:5159");
-            // // ⚡ el puerto correcto
+            //el puerto correcto
 
         }
 
@@ -35,8 +35,8 @@ namespace ProyectoWebFinal.Controllers
                 if (rol == 3) return RedirectToAction("Profesor", "Paginas");
             }
 
-            // También puedes comprobar Cookie si Session expiró:
-#pragma warning disable CS8602 // Desreferencia de una referencia posiblemente NULL.
+
+#pragma warning disable CS8602 
             if (User.Identity.IsAuthenticated)
             {
                 var rolCookie = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.Role).Value);
@@ -44,7 +44,7 @@ namespace ProyectoWebFinal.Controllers
                 if (rolCookie == 2) return RedirectToAction("Estudiante", "Paginas");
                 if (rolCookie == 3) return RedirectToAction("Profesor", "Paginas");
             }
-#pragma warning restore CS8602 // Desreferencia de una referencia posiblemente NULL.
+#pragma warning restore CS8602
 
             return View();
         }
@@ -66,12 +66,12 @@ namespace ProyectoWebFinal.Controllers
                 int rol = data.GetProperty("idrol").GetInt32();
                 int idusuario = data.GetProperty("idusuario").GetInt32();
 
-                // ✅ Guardar en Session
+                // Guardar en Session
                 HttpContext.Session.SetString("usuario", model.login);
                 HttpContext.Session.SetInt32("rol", rol);
                 HttpContext.Session.SetInt32("idusuario", idusuario);
 
-                // ✅ Guardar en Cookie para login persistente
+                //Guardar en Cookie para login persistente
                 var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, model.login),
@@ -131,7 +131,7 @@ namespace ProyectoWebFinal.Controllers
         }
 
         // ==========================================
-        // 2️⃣ Eliminar Usuarios (solo Admin)
+        // Eliminar Usuarios (solo Admin)
         // ==========================================
         public async Task<IActionResult> UsuariosEliminar()
         {

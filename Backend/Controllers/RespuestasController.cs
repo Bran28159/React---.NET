@@ -20,7 +20,7 @@ namespace ProyectoWebFinal.Controllers
         }
 
         // ==========================================
-        // 1️⃣ Página principal: Listar todas las respuestas
+        // Página principal: Listar todas las respuestas
         // ==========================================
         public async Task<IActionResult> Respuestas()
         {
@@ -43,7 +43,7 @@ namespace ProyectoWebFinal.Controllers
         }
 
         // ==========================================
-        // 2️⃣ Eliminar encuestas
+        // Eliminar encuestas
         // ==========================================
         public async Task<IActionResult> RespuestasEliminar()
         {
@@ -69,7 +69,7 @@ namespace ProyectoWebFinal.Controllers
         }
 
         // ==========================================
-        // 3️⃣ Editar encuestas
+        // Editar encuestas
         // ==========================================
         public async Task<IActionResult> RespuestasEditar()
         {
@@ -98,7 +98,7 @@ namespace ProyectoWebFinal.Controllers
         }
 
         // ==========================================
-        // 4️⃣ Exportación
+        // Exportación
         // ==========================================
         public async Task<IActionResult> RespuestasExportar()
         {

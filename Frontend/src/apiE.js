@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5159/api"; // sin barra al final
+const API_URL = "http://localhost:5159/api"; 
 
 export async function getCombos(endpoint) {
   const res = await fetch(`${API_URL}${endpoint}`);
@@ -7,7 +7,7 @@ export async function getCombos(endpoint) {
 }
 
 export async function GetRoles() {
-  const res = await fetch(`${API_URL}/RolesApi`); // correcto
+  const res = await fetch(`${API_URL}/RolesApi`); 
   if (!res.ok) throw new Error(`Error al obtener roles: ${res.statusText}`);
   return await res.json();
 }
@@ -28,7 +28,7 @@ export async function putRespuesta(id, payload) {
   return await res.json();
 }
 
-// Mantener tus funciones originales si las necesitas
+
 export async function getEncuesta(id) {
   const res = await fetch(`${API_URL}/EncuestaApi/${id}`);
   if (!res.ok) throw new Error(`Error al obtener encuesta ${id}: ${res.statusText}`);

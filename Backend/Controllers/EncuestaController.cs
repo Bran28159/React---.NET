@@ -19,7 +19,7 @@ namespace ProyectoWebFinal.Controllers
         }
 
         // ==========================================
-        // 1️⃣ Formulario vacío para llenar encuesta
+        //  Formulario vacío para llenar encuesta
         // ==========================================
         [HttpGet]
         public async Task<IActionResult> LlenarEncuesta()
@@ -56,7 +56,7 @@ namespace ProyectoWebFinal.Controllers
         }
 
         // ==========================================
-        // 2️⃣ Editar encuesta
+        // Editar encuesta
         // ==========================================
         [HttpGet]
         public async Task<IActionResult> ActualizarEncuesta(int? numero)
@@ -117,7 +117,7 @@ namespace ProyectoWebFinal.Controllers
         }
 
         // ==========================================
-        // 3️⃣ Combos para los select
+        //  Combos para los select
         // ==========================================
         private async Task CargarCombos()
         {
